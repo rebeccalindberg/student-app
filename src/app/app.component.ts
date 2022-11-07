@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       let a = new Student();
       a.name = this.studentForm.value.name;
 
-      this.http.post<any>('https://localhost:9500', a)
+      this.http.post<any>('http://localhost:9000/api/students', a)
       .subscribe({
         next: b => {
           console.log(b);

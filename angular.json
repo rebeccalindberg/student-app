@@ -73,7 +73,9 @@
               "browserTarget": "student-app:build:production"
             },
             "development": {
-              "browserTarget": "student-app:build:development"
+              "browserTarget": "student-app:build:development",
+              
+            "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
