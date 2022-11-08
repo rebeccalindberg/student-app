@@ -67,10 +67,13 @@ export class AppComponent implements OnInit {
     if (this.studentForm.valid) {
       let a = new Student();
       a.name = this.studentForm.value.name;
+      form.reset();
+      //this.studentForm.value.trim();
 
       this.http.post<any>('http://localhost:9000/api/students', a)
       .subscribe({
         next: b => {
+          this.students.push(b);
           console.log(b);
         },
         error: error => {
