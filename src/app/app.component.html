@@ -20,6 +20,28 @@
 
     <div>
       <h2>Create a new Classroom</h2>
+      <form [formGroup]="crForm" (ngSubmit)="onSubmitCRForm(crForm)">
+        <div class="form-row">
+          <mat-form-field appearance="fill" floatPlaceHolder="never">
+            <mat-label>Classroom name</mat-label>
+            <input matInput formControlName="name" placeholder="Classroom">
+            <mat-hint *ngIf="crForm.get('name')!.invalid && (crForm.get('name')!.dirty || crForm.get('name')!.touched)">
+              Please enter a classroom name
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="fill" floatPlaceHolder="never">
+            <mat-label>Instructor Name</mat-label>
+            <input matInput formControlName="instName" placeholder="Instructor name">
+            <mat-hint *ngIf="crForm.get('instName')!.invalid && (crForm.get('instName')!.dirty || crForm.get('instName')!.touched)">
+              Please enter an instructor name
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <button type="submit" class="submit-button" color="accent" mat-raised-button [disabled]="crForm.invalid">Submit</button>
+      </form>
     </div>
 
     <div>
