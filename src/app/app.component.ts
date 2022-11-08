@@ -1,14 +1,31 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 
 export class Student {
   name: string | undefined;
 }
 
-export class Classroom {
+export interface IStudent {
+  id: number | undefined;
   name: string | undefined;
+}
+
+export interface IClassroom {
+  id: number | undefined;
+  classroomName: string | undefined;
   instructorName: string | undefined;
+}
+
+export class Classroom {
+  classroomName: string | undefined;
+  instructorName: string | undefined;
+}
+
+export class AlbumService {
+  constructor(private _http: HttpClient) {}
 }
 
 @Component({
@@ -20,6 +37,8 @@ export class AppComponent implements OnInit {
   title = 'Student App';
   studentForm!: FormGroup;
   crForm!: FormGroup;
+  students: IStudent[] = [];
+  classrooms: IClassroom[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +55,9 @@ export class AppComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       instName: ['', [Validators.required, Validators.minLength(5)]]
     });
+
+    this.getStudentsObs();
+    this.getClassroomsObs();
   }
 
   onSubmitStudentForm(form: FormGroup) {
@@ -69,7 +91,7 @@ export class AppComponent implements OnInit {
 
     if (this.crForm.valid) {
       let cr = new Classroom();
-      cr.name = this.crForm.value.name;
+      cr.classroomName = this.crForm.value.name;
       cr.instructorName = this.crForm.value.instName;
 
       this.http.post<any>('http://localhost:9000/api/classrooms', cr)
@@ -86,4 +108,41 @@ export class AppComponent implements OnInit {
       })
     }
   }
+/*
+  getStudents(): Observable<Student1[]> {
+    return this.http.get<Student1[]>(http://localhost:9000/api/students)
+      .pipe(
+        tap(_ => this.log('fetched students')),
+        catchError(this.handleError<Student1[]>('getHeroes', []))
+      );
+  }*/
+
+
+
+  getStudents(): Observable<IStudent[]> {
+    return this.http.get<IStudent[]>('http://localhost:9000/api/students');
+  }
+
+  getStudentsObs(): void {
+    this.getStudents().subscribe(
+      response => {
+        this.students = response; 
+        console.log(this.students);
+      }
+    ); 
+  }
+
+  getClassrooms(): Observable<IClassroom[]> {
+    return this.http.get<IClassroom[]>('http://localhost:9000/api/classrooms');
+  }
+
+  getClassroomsObs(): void {
+    this.getClassrooms().subscribe(
+      response => {
+        this.classrooms = response;
+        console.log(this.classrooms);
+      }
+    ); 
+  }
+
 }

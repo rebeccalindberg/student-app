@@ -46,6 +46,22 @@
 
     <div>
       <h2>Assign a Student to Classroom</h2>
+      <h3>Students</h3>
+      <li *ngFor="let student of students">
+        <button mat-raised-button type="button">
+        <span class="badge">{{student.id}} </span>
+        <span class="name">{{student.name}}</span>
+        </button>
+      </li>
+      
+      <h3>Classrooms</h3>
+      <li *ngFor="let classroom of classrooms">
+        <button mat-raised-button type="button">
+        <span class="badge">Classroom: {{classroom.classroomName}}</span>
+        <br>
+        <span class="name">Instructor: {{classroom.instructorName}}</span>
+        </button>
+      </li>
     </div>
   </div>
 </div>
