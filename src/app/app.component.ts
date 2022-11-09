@@ -111,16 +111,6 @@ export class AppComponent implements OnInit {
       })
     }
   }
-/*
-  getStudents(): Observable<Student1[]> {
-    return this.http.get<Student1[]>(http://localhost:9000/api/students)
-      .pipe(
-        tap(_ => this.log('fetched students')),
-        catchError(this.handleError<Student1[]>('getHeroes', []))
-      );
-  }*/
-
-
 
   getStudents(): Observable<IStudent[]> {
     return this.http.get<IStudent[]>('http://localhost:9000/api/students');
