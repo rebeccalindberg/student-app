@@ -9,10 +9,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ClassroomsComponent } from './classrooms/classrooms.component';
+import { DragDropComponent } from './drag-drop/drag-drop.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ClassroomsComponent,
+    DragDropComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

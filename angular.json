@@ -69,17 +69,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "move-safe:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "move-safe:build"
   },
           "configurations": {
             "production": {
               "browserTarget": "student-app:build:production"
             },
             "development": {
-              "browserTarget": "student-app:build:development",
-              
-            "proxyConfig": "src/proxy.conf.json"
+              "browserTarget": "student-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,8 +84,8 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "student-app:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "student-app:build"
+            
           }
         },
         "test": {

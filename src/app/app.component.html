@@ -4,7 +4,7 @@
 
     <div>
       <h2>Create a new Student</h2>
-      <form [formGroup]="studentForm" (ngSubmit)="onSubmitStudentForm(studentForm)">
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmitStudentForm()">
         <div class="form-row">
           <mat-form-field appearance="fill" floatPlaceHolder="never">
             <mat-label>Student Name</mat-label>
@@ -15,12 +15,13 @@
           </mat-form-field>
         </div>
         <button type="submit" class="submit-button" color="accent" mat-raised-button [disabled]="studentForm.invalid">Submit</button>
+        <span *ngIf="submitSt">{{submitStResponse}}</span>
       </form>
     </div>
 
     <div>
       <h2>Create a new Classroom</h2>
-      <form [formGroup]="crForm" (ngSubmit)="onSubmitCRForm(crForm)">
+      <form [formGroup]="crForm" (ngSubmit)="onSubmitCRForm()">
         <div class="form-row">
           <mat-form-field appearance="fill" floatPlaceHolder="never">
             <mat-label>Classroom name</mat-label>
@@ -41,12 +42,17 @@
           </mat-form-field>
         </div>
         <button type="submit" class="submit-button" color="accent" mat-raised-button [disabled]="crForm.invalid">Submit</button>
+        <span *ngIf="submitCR">{{submitCRResponse}}</span>
       </form>
     </div>
 
     <div>
       <h2>Assign a Student to Classroom</h2>
+      <app-drag-drop></app-drag-drop>
+
+
       <h3>Students</h3>
+      
       <li *ngFor="let student of students">
         <button mat-raised-button type="button">
         <span class="badge">{{student.id}} </span>

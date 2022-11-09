@@ -3,30 +3,12 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { Student } from './student';
+import { Classroom } from './classroom';
+import { ClassroomService } from './classroom.service';
+import { StudentService } from './student.service';
 
-export class Student {
-  name: string | undefined;
-}
-
-export interface IStudent {
-  id: number | undefined;
-  name: string | undefined;
-}
-
-export interface IClassroom {
-  id: number | undefined;
-  classroomName: string | undefined;
-  instructorName: string | undefined;
-}
-
-export class Classroom {
-  classroomName: string | undefined;
-  instructorName: string | undefined;
-}
-
-export class AlbumService {
-  constructor(private _http: HttpClient) {}
-}
 
 @Component({
   selector: 'app-root',
@@ -37,12 +19,18 @@ export class AppComponent implements OnInit {
   title = 'Student App';
   studentForm!: FormGroup;
   crForm!: FormGroup;
-  students: IStudent[] = [];
-  classrooms: IClassroom[] = [];
+  students: Student[] = [];
+  classrooms: Classroom[] = [];
+  submitCRResponse: string | undefined;
+  submitCR: boolean = false;
+  submitStResponse: string | undefined;
+  submitSt: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private classroomService: ClassroomService,
+    private studentService: StudentService
   ) {
 
   }
@@ -56,68 +44,54 @@ export class AppComponent implements OnInit {
       instName: ['', [Validators.required, Validators.minLength(5)]]
     });
 
-    this.getStudentsObs();
-    this.getClassroomsObs();
+    this.getStudents();
+    this.getClassrooms();
   }
 
-  onSubmitStudentForm(form: FormGroup) {
+  onSubmitStudentForm() {
     console.log('Valid?', this.studentForm.valid);
     console.log('Name', this.studentForm.value.name);
 
     if (this.studentForm.valid) {
-      let a = new Student();
-      a.name = this.studentForm.value.name;
-      form.reset();
-      //this.studentForm.value.trim();
+      var thisStudent: Student = {
+        name: this.studentForm.value.name
+      };
 
-      this.http.post<any>('http://localhost:9000/api/students', a)
-      .subscribe({
-        next: b => {
-          this.students.push(b);
-          console.log(b);
-        },
-        error: error => {
-          console.log(error);
-        }, 
-        complete: () => {
-          console.log("Student added");
-        }
+      this.studentService.addStudent(thisStudent)
+      .subscribe(student => {
+        this.students.push(student);
+        this.submitCRResponse = "Student " + student.name + " added";
+        this.submitCR = true;
       })
+
+      this.studentForm.reset();
     }
   }
 
     
-  onSubmitCRForm(form: FormGroup) {
+  onSubmitCRForm() {
     console.log('Valid?', this.crForm.valid);
     console.log('Name', this.crForm.value.name);
     console.log('Instructor name', this.crForm.value.instName);
 
     if (this.crForm.valid) {
-      let cr = new Classroom();
-      cr.classroomName = this.crForm.value.name;
-      cr.instructorName = this.crForm.value.instName;
+      var cr: Classroom = {
+        classroomName : this.crForm.value.name,
+        instructorName : this.crForm.value.instName
+      };
 
-      this.http.post<any>('http://localhost:9000/api/classrooms', cr)
-      .subscribe({
-        next: b => {
-          console.log(b);
-        },
-        error: error => {
-          console.log(error);
-        }, 
-        complete: () => {
-          console.log("Classroom added");
-        }
+      this.classroomService.addClassrom(cr)
+      .subscribe(classroom => {
+        this.classrooms.push(classroom);
+        this.submitCRResponse = "Classroom " + classroom.classroomName + " added";
+        this.submitCR = true;
       })
+      this.crForm.reset();
     }
   }
 
-  getStudents(): Observable<IStudent[]> {
-    return this.http.get<IStudent[]>('http://localhost:9000/api/students');
-  }
-
-  getStudentsObs(): void {
-    this.getStudents().subscribe(
+  getStudents(): void {
+    this.studentService.getStudents().subscribe(
       response => {
         this.students = response; 
         console.log(this.students);
@@ -125,17 +99,13 @@ export class AppComponent implements OnInit {
     ); 
   }
 
-  getClassrooms(): Observable<IClassroom[]> {
-    return this.http.get<IClassroom[]>('http://localhost:9000/api/classrooms');
-  }
-
-  getClassroomsObs(): void {
-    this.getClassrooms().subscribe(
+  getClassrooms(): void {
+    this.classroomService.getClassrooms().subscribe(
       response => {
         this.classrooms = response;
         console.log(this.classrooms);
       }
     ); 
   }
-
+  
 }
