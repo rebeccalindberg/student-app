@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { Student } from './student';
@@ -59,7 +59,8 @@ export class AppComponent implements OnInit {
 
       this.studentService.addStudent(thisStudent)
       .subscribe(student => {
-        this.students.push(student);
+        thisStudent.id = student.id;
+        this.students.push(thisStudent);
         this.submitStResponse = "Student " + student.name + " added";
         this.submitSt = true;
       })
@@ -82,7 +83,12 @@ export class AppComponent implements OnInit {
 
       this.classroomService.addClassrom(cr)
       .subscribe(classroom => {
-        this.classrooms.push(classroom);
+        cr.id = classroom.id;
+        var emptyStudents : Student[] = [];
+        cr.students = emptyStudents;
+        console.log(cr);
+        this.classrooms.push(cr);
+        console.log(this.classrooms);
         this.submitCRResponse = "Classroom " + classroom.classroomName + " added";
         this.submitCR = true;
       })
@@ -102,10 +108,27 @@ export class AppComponent implements OnInit {
   getClassrooms(): void {
     this.classroomService.getClassrooms().subscribe(
       response => {
+        for (const d of (response as Classroom[])) {
+          this.studentService.getStudentsInClassroom(d.id!).subscribe(
+            responseStudents => {
+              d.students = responseStudents;
+              console.log("response students" + responseStudents);
+            }
+          ); 
+        }
         this.classrooms = response;
         console.log(this.classrooms);
       }
     ); 
   }
+
+  getStudentsInClassroom(classroomId: number): void {
+    this.studentService.getStudentsInClassroom(classroomId).subscribe(
+      response => {
+        console.log(response);
+      }
+    ); 
+  }
+
   
 }

@@ -4,6 +4,7 @@ import { Classroom } from './classroom';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Student } from './student';
+import { StudentClassroom } from './studentclassroom';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,19 @@ export class ClassroomService {
   }
 
 
-  addClassrom(classroom: Classroom): Observable<Classroom> {
+  addClassrom(classroom: Classroom): Observable<any> {
     return this.http.post<Classroom>('http://localhost:9000/api/classrooms', classroom, this.httpOptions)
     .pipe(
-      tap((newClassroom: Classroom) => console.log(`added classroom with id=${newClassroom.id}`)),
-      catchError(this.handleError<Classroom>('addClassroom'))
+      tap((newClassroom: any) => console.log(`added classroom with id=${newClassroom.id}`)),
+      catchError(this.handleError<any>('addClassroom'))
+    );
+  }
+
+  addStudentToClassrom(studentClassroom: StudentClassroom): Observable<any> {
+    return this.http.post<StudentClassroom>('http://localhost:9000/api/assignstudent', studentClassroom, this.httpOptions)
+    .pipe(
+      tap((studentClassroom: any) => console.log(`added student to classroom`)),
+      catchError(this.handleError<any>('addStudentToClassroom'))
     );
   }
 

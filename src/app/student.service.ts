@@ -27,11 +27,11 @@ export class StudentService {
     );
   }
 
-  addStudent(student: Student): Observable<Student> {
+  addStudent(student: Student): Observable<any> {
     return this.http.post<Student>('http://localhost:9000/api/students', student, this.httpOptions)
     .pipe(
-      tap((newStudent: Student) => console.log(`added student with id=${newStudent.id}`)),
-      catchError(this.handleError<Student>('addStudent'))
+      tap((newStudent: any) => console.log(`added student with id=${newStudent.id}`)),
+      catchError(this.handleError<any>('addStudent'))
     );
   }
 
