@@ -17,15 +17,12 @@ export class ClassroomService {
   constructor(private http: HttpClient) { }
 
   getClassrooms(): Observable<Classroom[]> {
-    return this.http.get<Classroom[]>('http://localhost:9000/api/classrooms');
+    return this.http.get<Classroom[]>('http://localhost:9000/api/classrooms').pipe(
+      tap(_ => console.log(`fetched all classrooms`)),
+      catchError(this.handleError<Classroom[]>(`getClassrooms`))
+    );
   }
 
-  getStudentsInClassroom(classroomId: number): Observable<Student[]> {
-    return this.http.get<Student[]>(`/api/classrooms/${classroomId}/students`).pipe(
-      tap(_ => console.log(`fetched students in classroom id=${classroomId}`)),
-      catchError(this.handleError<Student[]>(`getStudentsInClassroom id=${classroomId}`))
-    );;
-  }
 
   addClassrom(classroom: Classroom): Observable<Classroom> {
     return this.http.post<Classroom>('http://localhost:9000/api/classrooms', classroom, this.httpOptions)

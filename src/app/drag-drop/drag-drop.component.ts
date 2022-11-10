@@ -28,8 +28,7 @@ export class DragDropComponent implements OnInit {
     this.getClassrooms();
   }
 
-  // Input parameter Classroom
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<Student[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -51,7 +50,7 @@ export class DragDropComponent implements OnInit {
           this.studentService.getStudentsInClassroom(d.id!).subscribe(
             responseStudents => {
               d.students = responseStudents;
-              console.log(responseStudents);
+              console.log("response students" + responseStudents);
             }
           ); 
         }
@@ -69,5 +68,8 @@ export class DragDropComponent implements OnInit {
     ); 
   }
   
+  getConnectedList(): any[] {
+    return this.classrooms.map(x => `${x.id}`);
+  }
 
 }

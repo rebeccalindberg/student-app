@@ -1,4 +1,6 @@
 export interface Student {
-    id?: number | undefined;
+    id?: number;
     name: string | undefined;
+    studentId?: number;
+    classroomId?: number;
   }

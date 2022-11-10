@@ -60,8 +60,8 @@ export class AppComponent implements OnInit {
       this.studentService.addStudent(thisStudent)
       .subscribe(student => {
         this.students.push(student);
-        this.submitCRResponse = "Student " + student.name + " added";
-        this.submitCR = true;
+        this.submitStResponse = "Student " + student.name + " added";
+        this.submitSt = true;
       })
 
       this.studentForm.reset();

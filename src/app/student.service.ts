@@ -19,11 +19,12 @@ export class StudentService {
     return this.http.get<Student[]>('http://localhost:9000/api/students');
   }
 
+
   getStudentsInClassroom(classroomId: number): Observable<Student[]> {
-    return this.http.get<Student[]>(`/api/classrooms/${classroomId}/students`).pipe(
+    return this.http.get<Student[]>(`http://localhost:9000/api/classrooms/${classroomId}/students`).pipe(
       tap(_ => console.log(`fetched students in classroom id=${classroomId}`)),
       catchError(this.handleError<Student[]>(`getStudentsInClassroom id=${classroomId}`))
-    );;
+    );
   }
 
   addStudent(student: Student): Observable<Student> {

@@ -1,13 +1,15 @@
 <div cdkDropListGroup *ngFor="let cr of classrooms; let i = index">
     <div class="example-container">
-      <h4>{{cr.classroomName}} | {{cr.instructorName}}</h4>
-  
+      <h3>{{cr.classroomName}} | {{cr.instructorName}}</h3>
+
       <div
         cdkDropList
-        [cdkDropListData]="listOfStudents[i]"
+        id={{cr.id}}
+        [cdkDropListData]="cr.students!"
         class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of listOfStudents[i]" cdkDrag>{{item}}</div>
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListConnectedTo]="getConnectedList()">
+        <div class="example-box" *ngFor="let item of cr.students" cdkDrag>{{item.name}}</div>
       </div>
     </div>
   
