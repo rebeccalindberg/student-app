@@ -47,6 +47,14 @@ export class DragDropComponent implements OnInit {
   getClassrooms(): void {
     this.classroomService.getClassrooms().subscribe(
       response => {
+        for (const d of (response as Classroom[])) {
+          this.studentService.getStudentsInClassroom(d.id!).subscribe(
+            responseStudents => {
+              d.students = responseStudents;
+              console.log(responseStudents);
+            }
+          ); 
+        }
         this.classrooms = response;
         console.log(this.classrooms);
       }

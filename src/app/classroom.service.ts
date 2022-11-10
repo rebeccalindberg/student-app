@@ -3,6 +3,8 @@ import { Observable, of } from 'rxjs';
 import { Classroom } from './classroom';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
+import { Student } from './student';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +18,13 @@ export class ClassroomService {
 
   getClassrooms(): Observable<Classroom[]> {
     return this.http.get<Classroom[]>('http://localhost:9000/api/classrooms');
+  }
+
+  getStudentsInClassroom(classroomId: number): Observable<Student[]> {
+    return this.http.get<Student[]>(`/api/classrooms/${classroomId}/students`).pipe(
+      tap(_ => console.log(`fetched students in classroom id=${classroomId}`)),
+      catchError(this.handleError<Student[]>(`getStudentsInClassroom id=${classroomId}`))
+    );;
   }
 
   addClassrom(classroom: Classroom): Observable<Classroom> {
