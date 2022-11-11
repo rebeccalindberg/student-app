@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { Classroom } from '../classroom';
 import { ClassroomService } from '../classroom.service';
 import { Student } from '../student';
@@ -33,9 +33,11 @@ export class DragDropComponent implements OnInit {
         studentId: studentId,
         classroomId: crId
       }
+      console.log("studentclassroom trying to be moved");
+      console.log(studentCR);
       if (!this.studentExistsInClassroom(studentCR)) {
       
-        transferArrayItem(
+        copyArrayItem(
           event.previousContainer.data,
           event.container.data,
           event.previousIndex,
@@ -49,15 +51,16 @@ export class DragDropComponent implements OnInit {
 
   studentExistsInClassroom(studentCR : StudentClassroom) : boolean {
     var thisClassroom : Classroom | undefined =  this.classroomInput.find(x => x.id == studentCR.classroomId);
+    console.log("this classroom being checked");
+    console.log(thisClassroom);
     var exists : boolean = false;
 
-    const isInArray = thisClassroom?.students!.find(function(st){ 
+    thisClassroom?.students!.find(function(st){ 
       if (st.id == studentCR.studentId) {
         console.log("Student already exists in classroom");
         exists = true;
       } 
-      return st;
-    }) !== undefined;
+    });
     return exists;
   }
 
