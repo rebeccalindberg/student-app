@@ -1,9 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { Student } from './student';
 import { Classroom } from './classroom';
 import { ClassroomService } from './classroom.service';

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, copyArrayItem, moveItemInArray} from '@angular/cdk/drag-drop';
 import { Classroom } from '../classroom';
 import { ClassroomService } from '../classroom.service';
 import { Student } from '../student';
