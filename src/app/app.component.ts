@@ -49,8 +49,6 @@ export class AppComponent implements OnInit {
   }
 
   onSubmitStudentForm() {
-    console.log('Valid?', this.studentForm.valid);
-    console.log('Name', this.studentForm.value.name);
 
     if (this.studentForm.valid) {
       var thisStudent: Student = {
@@ -71,9 +69,6 @@ export class AppComponent implements OnInit {
 
     
   onSubmitCRForm() {
-    console.log('Valid?', this.crForm.valid);
-    console.log('Name', this.crForm.value.name);
-    console.log('Instructor name', this.crForm.value.instName);
 
     if (this.crForm.valid) {
       var cr: Classroom = {
@@ -86,9 +81,7 @@ export class AppComponent implements OnInit {
         cr.id = classroom.id;
         var emptyStudents : Student[] = [];
         cr.students = emptyStudents;
-        console.log(cr);
         this.classrooms.push(cr);
-        console.log(this.classrooms);
         this.submitCRResponse = "Classroom " + classroom.classroomName + " added";
         this.submitCR = true;
       })
@@ -99,8 +92,7 @@ export class AppComponent implements OnInit {
   getStudents(): void {
     this.studentService.getStudents().subscribe(
       response => {
-        this.students = response; 
-        console.log(this.students);
+        this.students = response;
       }
     ); 
   }
@@ -112,12 +104,10 @@ export class AppComponent implements OnInit {
           this.studentService.getStudentsInClassroom(d.id!).subscribe(
             responseStudents => {
               d.students = responseStudents;
-              console.log("response students" + responseStudents);
             }
           ); 
         }
         this.classrooms = response;
-        console.log(this.classrooms);
       }
     ); 
   }

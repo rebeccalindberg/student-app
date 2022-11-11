@@ -15,7 +15,7 @@
           </mat-form-field>
         </div>
         <button type="submit" class="submit-button" color="accent" mat-raised-button [disabled]="studentForm.invalid">Submit</button>
-        <span *ngIf="submitSt">{{submitStResponse}}</span>
+        <span class="submit-response" *ngIf="submitSt">{{submitStResponse}}</span>
       </form>
     </div>
 
@@ -42,7 +42,7 @@
           </mat-form-field>
         </div>
         <button type="submit" class="submit-button" color="accent" mat-raised-button [disabled]="crForm.invalid">Submit</button>
-        <span *ngIf="submitCR">{{submitCRResponse}}</span>
+        <span class="submit-response" *ngIf="submitCR">{{submitCRResponse}}</span>
       </form>
     </div>
 

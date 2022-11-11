@@ -6,7 +6,6 @@ import { Student } from '../student';
 import { StudentClassroom } from '../studentclassroom';
 import { StudentService } from '../student.service';
 
-
 @Component({
   selector: 'app-drag-drop',
   templateUrl: './drag-drop.component.html',
@@ -28,24 +27,38 @@ export class DragDropComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      console.log("student id:");
-      console.log(event.previousContainer.data[event.previousIndex].id);
-      console.log(event.container.id);
       var studentId : number = event.previousContainer.data[event.previousIndex].id!;
       var crId : number = Number(event.container.id);
-
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
       var studentCR : StudentClassroom = {
         studentId: studentId,
         classroomId: crId
       }
-      this.addStudentToClassrom(studentCR);
+      if (!this.studentExistsInClassroom(studentCR)) {
+      
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex,
+        );
+        
+        this.addStudentToClassrom(studentCR);
+      }
     }
+  }
+
+  studentExistsInClassroom(studentCR : StudentClassroom) : boolean {
+    var thisClassroom : Classroom | undefined =  this.classroomInput.find(x => x.id == studentCR.classroomId);
+    var exists : boolean = false;
+
+    const isInArray = thisClassroom?.students!.find(function(st){ 
+      if (st.id == studentCR.studentId) {
+        console.log("Student already exists in classroom");
+        exists = true;
+      } 
+      return st;
+    }) !== undefined;
+    return exists;
   }
 
 
