@@ -33,10 +33,7 @@ export class DragDropComponent implements OnInit {
         studentId: studentId,
         classroomId: crId
       }
-      console.log("studentclassroom trying to be moved");
-      console.log(studentCR);
       if (!this.studentExistsInClassroom(studentCR)) {
-      
         copyArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -51,8 +48,6 @@ export class DragDropComponent implements OnInit {
 
   studentExistsInClassroom(studentCR : StudentClassroom) : boolean {
     var thisClassroom : Classroom | undefined =  this.classroomInput.find(x => x.id == studentCR.classroomId);
-    console.log("this classroom being checked");
-    console.log(thisClassroom);
     var exists : boolean = false;
 
     thisClassroom?.students!.find(function(st){ 
@@ -63,7 +58,6 @@ export class DragDropComponent implements OnInit {
     });
     return exists;
   }
-
 
   addStudentToClassrom(studentClassroom: StudentClassroom): void {
     this.classroomService.addStudentToClassrom(studentClassroom).subscribe(
@@ -76,5 +70,4 @@ export class DragDropComponent implements OnInit {
   getConnectedList(): any[] {
     return this.classroomInput.map(x => `${x.id}`);
   }
-
 }

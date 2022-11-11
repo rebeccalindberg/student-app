@@ -69,7 +69,6 @@ export class AppComponent implements OnInit {
 
     
   onSubmitCRForm() {
-
     if (this.crForm.valid) {
       var cr: Classroom = {
         classroomName : this.crForm.value.name,
@@ -119,6 +118,4 @@ export class AppComponent implements OnInit {
       }
     ); 
   }
-
-  
 }
