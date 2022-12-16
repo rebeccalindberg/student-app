@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
 
 ## Run the app
-Download the backend Interviews-frontend-dev. To enable CORS, add the following line in services/src/index.ts:
+Download the backend. To enable CORS, add the following line in services/src/index.ts:
 ```
 app.use(cors({
   origin: 'http://localhost:4200'
